@@ -31,6 +31,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='concierto',
             name='grupo',
-            field=models.ForeignKey(to='UsersPut.Grupo'),
+            field=models.ForeignKey(to='cms_users_put.Grupo'),
         ),
     ]

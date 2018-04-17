@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('UsersPut', '0001_initial'),
+        ('cms_users_put', '0001_initial'),
     ]
 
     operations = [
@@ -43,6 +43,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='cliente',
             name='viaje',
-            field=models.ForeignKey(to='UsersPut.Viaje'),
+            field=models.ForeignKey(to='cms_users_put.Viaje'),
         ),
     ]
