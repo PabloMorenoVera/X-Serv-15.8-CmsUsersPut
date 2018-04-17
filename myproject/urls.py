@@ -18,8 +18,9 @@ from django.contrib.auth.views import logout
 from django.contrib.auth.views import login
 
 urlpatterns = [
-    url(r'^$', 'UsersPut.views.mostrar'),
-    url(r'^viajes/viaje/(\d+)$', 'UsersPut.views.viaje'),
+    url(r'^$', 'cms_users_put.views.mostrar'),
+    url(r'^viajes/viaje/(\d+)$', 'cms_users_put.views.viaje'),
+    url(r'^accounts/profile/', 'cms_users_put.views.logged'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout', logout),
     url(r'^login', login),
