@@ -16,11 +16,12 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth.views import logout
 from django.contrib.auth.views import login
+from django.views.generic import RedirectView
 
 urlpatterns = [
     url(r'^$', 'cms_users_put.views.mostrar'),
-    url(r'^viajes/viaje/(\d+)$', 'cms_users_put.views.viaje'),
-    url(r'^accounts/profile/', 'cms_users_put.views.logged'),
+    url(r'^paginas/(.+)$', 'cms_users_put.views.redireccion'),
+    url(r'^accounts/profile/', RedirectView.as_view(url='/')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout', logout),
     url(r'^login', login),
