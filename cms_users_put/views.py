@@ -7,6 +7,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Page
 import urllib.parse
 import urllib.request
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 
 
 def mostrar(request):
@@ -16,25 +18,34 @@ def mostrar(request):
     respuesta += "</ul>"
     if request.user.is_authenticated():
         logged = 'Logged in as ' + request.user.username + "    " + "<a href= '/logout'>Logout</a>"
-        return HttpResponse(logged + "<br><br>Introduzca una url:" + formulario + respuesta)
     else:
         logged = 'Not logged in.' + "<a href='/login'>Login</a>"
-        return HttpResponse(logged + "<br><br>" + respuesta)
+    return HttpResponse(logged + "<br><br>Contenido de la base de datos:<br>" + respuesta)
 
 @csrf_exempt
 def insertar(request, texto):
+    if request.user.is_authenticated():
+        logged = 'Logged in as ' + request.user.username + "    " + "<a href= '/logout'>Logout</a>"
+    else:
+        logged = 'Not logged in.' + "<a href='/login'>Login</a>"
+
     if request.method == "GET":
         try:
             p = Page.objects.get(nombre = texto)
-            print()
-            return HttpResponse(p.pagina)
+            return HttpResponse(logged + "<br><br>" + p.pagina)
         except Page.DoesNotExist:
-            return HttpResponse("No existe una página para ese recurso.")
+            return HttpResponse(logged + "<br><br>No existe una página para ese recurso.")
 
     else:
         if request.user.is_authenticated():
-            p = Page(nombre = texto, pagina = request.body.decode('utf-8'))
-            p.save()
-            return HttpResponse("Página con el nombre: '" + str(p.nombre) + "' y el cuerpo: " + str(p.pagina) + " ha sido creada.")
+            try:
+                p = Page.objects.get(nombre = texto)
+                p = Page(nombre = texto, pagina = request.body.decode('utf-8'))
+                p.save()
+                return HttpResponse("Página con el nombre: '" + str(p.nombre) + "' y el cuerpo: " + str(p.pagina) + " ha sido modificada.")
+            except Page.DoesNotExist:
+                p = Page(nombre = texto, pagina = request.body.decode('utf-8'))
+                p.save()
+                return HttpResponse("Página con el nombre: '" + str(p.nombre) + "' y el cuerpo: " + str(p.pagina) + " ha sido creada.")
         else:
-            return HttpResponse("Necesitas estar logueado para modificar una página")
+            return HttpResponse(logged + "<br><br>Necesitas estar logueado para modificar una página")

@@ -19,10 +19,10 @@ from django.contrib.auth.views import login
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', 'cms_users_put.views.mostrar'),
-    url(r'^paginas/(.+)$', 'cms_users_put.views.redireccion'),
-    url(r'^accounts/profile/', RedirectView.as_view(url='/')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^logout', logout),
     url(r'^login', login),
+    url(r'^accounts/profile/', RedirectView.as_view(url='/')),
+    url(r'^$', 'cms_users_put.views.mostrar'),
+    url(r'^(.+)$', 'cms_users_put.views.insertar'),
 ]
